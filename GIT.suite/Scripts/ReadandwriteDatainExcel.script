@@ -1,0 +1,41 @@
+﻿(*
+set MyExcelFile to Workbook(ResourcePath("FinancialStatus.xlsx"))
+set mySheet to worksheet(MyExcelFile,Sheet1)
+//put mySheet.cellRange ("A1", "G1") into firstRow
+put mySheet.cellRange ("1") into global firstRow
+log global firstRow
+put the number of items of item 1 of global firstRow+1 into global temp
+//log global temp
+repeat until item 1 of item 1 of global firstRow is empty
+	put mySheet.cellRange (repeatIndex()+1) into global firstRow
+	log global firstRow
+	log the number of items of item 1 of global firstRow+1
+	
+	if (repeatIndex()<global temp-1)
+		put "Used" into cell(mySheet ,[repeatIndex()+1,global temp])
+	end if
+	end repeat*)
+
+to handle Excelfile
+
+	set MyExcelFile to Workbook(ResourcePath("FinancialStatus.xlsx"))
+	set mySheet to worksheet(MyExcelFile,Sheet1)
+	put mySheet.cellRange (1) into global firstRow
+	put mySheet.cellRange ("A") into global col
+	put the number of items of global col into global col2
+	log global col2
+	log global firstRow
+	put the number of items of item 1 of global firstRow+1 into global temp
+	log global temp
+	repeat until item 1 of item 1 of global firstRow is empty
+		put mySheet.cellRange (repeatIndex()+1) into global firstRow
+		log global firstRow
+		log the number of items of item 1 of global firstRow+1
+		
+		if (repeatIndex()<global col2-1)
+			put "Used" into cell(mySheet ,[repeatIndex()+1,global temp])
+		end if
+		
+	end repeat
+end Excelfile
+

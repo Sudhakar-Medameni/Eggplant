@@ -1,0 +1,87 @@
+﻿
+ExcelFileReading "ExcelInteractionsFile.xlsx","Sheet1","No","Yes"
+
+to handle ExcelFileReading ExcelFileName,SheetNumber,flagValue,inputFlagValue
+	//Setting the Excel file into MyExcelFile Variable
+	set MyExcelFile to Workbook(ResourcePath(ExcelFileName))
+	//seting the worksheet into  MySheet Variable
+	set MySheet to worksheet(MyExcelFile,SheetNumber)
+	//putting the rowData of Excelfile into variable
+	put MySheet.cellRange (1) into Global rowData
+	
+	//putting the columnData of Excelfile into variable
+	put MySheet.cellRange ("A") into Global columnData
+	//storing the number of rows of columnData into Variable which gives the count of lines 
+	put the number of items of Global columnData into Global rowCount
+	//storing the number of Columns of row into Variable which gives the count of colums
+	put the number of items of item 1 of Global rowData+1 into Global columnCount
+	//Repeating until Row is Empty
+	repeat until item 1 of item 1 of Global rowData is empty
+		if item 1 of item 1 of Global rowData is flagValue then
+			repeat the number of items of item 1 of Global rowData
+				if item repeatIndex()+1 of item 1 of Global rowData is not empty then
+					log item repeatIndex()+1 of item 1 of Global rowData
+				else if item repeatIndex()+1 of item 1 of Global rowData is empty then
+					exit repeat
+				end if
+			End repeat
+			//put inputFlagValue into cell(MySheet ,[repeatIndex()+1,1]) 
+		end if
+		put MySheet.cellRange (repeatIndex()+1) into Global rowData
+	End repeat
+	
+	//putting the rowData of Excelfile into variable
+	put MySheet.cellRange (1) into Global rowData
+	repeat until item 1 of item 1 of Global rowData is empty
+		if item 1 of item 1 of Global rowData is flagValue then
+			repeat the number of items of item 1 of Global rowData
+				if item repeatIndex()+1 of item 1 of Global rowData is not empty then
+					//log item repeatIndex()+1 of item 1 of Global rowData
+					put  item repeatIndex()+1 of item 1 of Global rowData into item repeatIndex() of Data
+				else if item repeatIndex()+1 of item 1 of Global rowData is empty then
+					exit repeat
+				end if
+				log Data
+			End repeat
+			put inputFlagValue into cell(MySheet ,[repeatIndex()+1,1]) 
+		end if
+		put MySheet.cellRange (repeatIndex()+1) into Global rowData
+	End repeat
+	
+	(*
+
+put MySheet.cellRange (1) into Global rowData
+if item 1 of item 1 of Global rowData is flagValue then
+	repeat the number of items of item 1 of Global rowData
+			if item repeatIndex()+1 of item 1 of Global rowData is not empty
+				put item repeatIndex()+1 of item 1 of Global rowData into item repeatIndex() of Data
+			else
+				Exit repeat
+			end if
+			log Data		
+		End repeat
+		put inputFlagValue into cell(MySheet ,[1,1])
+	else
+		repeat until item 1 of item 1 of Global rowData is flagValue
+			put MySheet.cellRange (repeatIndex()+1) into Global rowData
+			if  item repeatIndex()+1 of item 1 of Global rowData is empty then
+				Exit repeat
+			end if
+		End repeat
+		repeat the number of items of item 1 of Global rowData
+			if item repeatIndex()+1 of item 1 of Global rowData is not empty
+				put item repeatIndex()+1 of  item 1 of Global rowData into item repeatIndex() of Data
+				
+			else
+				Exit repeat
+			end if
+			log Data
+			put inputFlagValue into cell(MySheet ,[repeatIndex()+1,1])
+		End repeat
+		
+	end if
+
+*)
+	end ExcelFileReading
+
+
